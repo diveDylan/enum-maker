@@ -13,3 +13,4 @@ tests/.types
 .vscode
 coverage
 dist
+esm
