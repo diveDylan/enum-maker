@@ -1,4 +1,4 @@
-import { checkFolder, writeEnums, writePermissions } from './files';
+import { checkFolderWithoutRemove, writeEnums, writePermissions } from './files';
 import * as path from 'path';
 import { registerHandlebarTemplates } from './registerTemplates';
 /**
@@ -37,18 +37,20 @@ export interface Permission {
  */
 export type Formatter = (enums: Record<string, string>) => EnumsItem;
 
-export function generatorEnums({
-  enums,
-  formatter,
-  permissionKey,
-}: {
+export interface GeneratorEnumsOptions {
   enums: Enums;
   formatter?: Formatter;
   /**
    * @description 权限字段的key
    */
   permissionKey?: string;
-}): {
+}
+
+export function generatorEnums({
+  enums,
+  formatter,
+  permissionKey,
+}:GeneratorEnumsOptions): {
   enumsArray: EnumsTemplateData[];
   permissions: Permission[];
 } {
@@ -56,6 +58,7 @@ export function generatorEnums({
   let permissions: Permission[];
   const enumsKeys: string[] = Object.keys(enums);
   enumsKeys.forEach((enumsKey) => {
+    if (/^\d+$/.test(enumsKey)) return
     /**
      * @notice 权限应该是[key,value]对象
      * 我们会自动过滤数字命名的key
@@ -134,7 +137,7 @@ export async function generateEnums({
   permissionKey,
 }: GenerateEnums) {
   const folder = path.resolve(process.cwd(), outputPath);
-  await checkFolder(folder);
+  await checkFolderWithoutRemove(folder);
   const { enumsArray, permissions } = generatorEnums({
     enums,
     formatter: formatterFn,

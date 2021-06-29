@@ -2,7 +2,7 @@
 
 因为单纯使用枚举和字典的场景不应该绑定太多依赖所以从 `sandfish` 中抽出 `enum-maker`
 
-<img src="https://img.shields.io/travis/com/diveDylan/sandfish?style=plastic"/>
+<img src="https://img.shields.io/travis/diveDylan/enum-maker"/>
 <img src="https://img.shields.io/codecov/c/github/diveDylan/sandfish?style=plastic"/>
 
 ### Install

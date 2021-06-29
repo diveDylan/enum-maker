@@ -5,5 +5,5 @@ module.exports = {
     '\\.hbs$': '<rootDir>/src/templates/.mock/index.js',
   },
   testPathIgnorePatterns: ['<rootDir>/dist'],
-  coveragePathIgnorePatterns: ['<rootDir>/dist', 'tests'],
+  coveragePathIgnorePatterns: ['<rootDir>/dist', 'tests', '<rootDir>/src/templates'],
 };

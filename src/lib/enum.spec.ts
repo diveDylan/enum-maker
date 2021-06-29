@@ -1,47 +1,54 @@
-import { generatorEnums, addEnumTail, codeSplitTransfer } from './enum';
+import { generatorEnums, addEnumTail, codeSplitTransfer, GeneratorEnumsOptions, generateEnums } from './enum';
+import { checkFolderWithoutRemove, writeEnums, writePermissions } from './files'
+import { registerHandlebarTemplates } from './registerTemplates'
+import * as path from 'path'
+jest.mock('./files', () => {
+  return {
+    _isEsModule: true,
+    checkFolderWithoutRemove: jest.fn(),
+    writePermissions: jest.fn(),
+    writeEnums: jest.fn()
+  }
+})
 
-test('generatorEnums will create an enums array', () => {
-  expect(
-    generatorEnums({
-      enums: {
-        CheckPeriod: { YEAR: '年度考核', QUARTER: '季度考核' },
-      },
-    }).enumsArray
-  ).toContainEqual({
-    name: 'CheckPeriodEnum',
-    enums: [
-      { label: '年度考核', value: 'YEAR' },
-      { label: '季度考核', value: 'QUARTER' },
+jest.mock('./registerTemplates', () => {
+  return {
+    _isEsModule: true,
+    registerHandlebarTemplates: jest.fn().mockReturnValue({
+      enums: 'enums',
+      permissions: 'permissions'
+    }),
+  }
+})
+const formatter = jest.fn().mockImplementation(item => ({
+  label: item.name,
+  value: item.value + '1',
+}))
+const enumCase: GeneratorEnumsOptions = {
+  enums: {
+    CheckPeriod: [
+      { label: '年度考核', value: 'year' },
+      { label: '季度考核', value: 'quarter' }
     ],
-  });
-  expect(
-    generatorEnums({
-      enums: {
-        CheckPeriod: { 1: '年度考核', 2: '季度考核' },
-      },
-    }).enumsArray
-  ).toHaveLength(0);
-  expect(
-    generatorEnums({
-      enums: {
-        CheckPeriod: [
-          { name: '年度考核', value: 'YEAR' },
-          { name: '季度考核', value: 'QUARTER' },
-        ],
-      },
-      formatter: (item) => ({
-        label: item.name,
-        value: item.value,
-      }),
-    }).enumsArray
-  ).toContainEqual({
-    name: 'CheckPeriodEnum',
-    enums: [
-      { label: '年度考核', value: 'YEAR' },
-      { label: '季度考核', value: 'QUARTER' },
-    ],
-  });
-});
+    Permissions: {
+      VIEW: 'view',
+      EDIT: 'edit'
+    },
+    CheckPeriodNumber: { 1: '年度考核', 2: '季度考核' },
+  },
+  permissionKey: 'Permissions',
+  formatter,
+}
+
+test('ArrayEnumsCase:  will create an enums array', () => {
+  const {enumsArray,permissions } = generatorEnums(enumCase)
+  expect( enumsArray ).toHaveLength(1);
+  expect(permissions).toHaveLength(2)
+  expect( enumsArray[0] ).toHaveProperty('name');
+  expect( enumsArray[0] ).toHaveProperty('enums');
+  expect(formatter).toBeCalled()
+})
+
 
 test('addEnumTail will add Enum string tail', () => {
   expect(addEnumTail('CheckPeriodEnum')).toBe('CheckPeriodEnum');
@@ -51,3 +58,18 @@ test('addEnumTail will add Enum string tail', () => {
 test('code split format', () => {
   expect(codeSplitTransfer('my:center:like')).toBe('my_center_like');
 });
+
+
+test('generateEnums will write enums and permissions', async () => {
+  await generateEnums({
+    enums: enumCase.enums,
+    permissionKey: enumCase.permissionKey,
+    formatterFn: formatter,
+    outputPath: './test'
+  })
+  const outputpath  = path.resolve(process.cwd(), './test')
+  expect(checkFolderWithoutRemove).toBeCalledWith(outputpath)
+  expect(registerHandlebarTemplates).toBeCalledTimes(1)
+  expect(writeEnums).toBeCalled()
+  expect(writePermissions).toBeCalled()
+})

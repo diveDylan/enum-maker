@@ -2,17 +2,6 @@ import fs from 'fs-extra';
 import { Templates } from './registerTemplates';
 import { Permission } from './enum';
 
-
-/**
- * @description if folder is exist, remove and mkdir a new folder
- */
-export async function checkFolder(folder: string) {
-  const isExists = await fs.pathExistsSync(folder);
-  if (isExists) {
-    await fs.removeSync(folder);
-  }
-  await fs.mkdirsSync(folder);
-}
 /**
  * @description if folder is exist, if noexist mkdir a new folder
  */
@@ -30,7 +19,6 @@ export async function writeEnums(folder, enums, templates) {
   const enumsData = templates.enums({ enums });
   await fs.writeFileSync(folder + '/enum.ts', enumsData);
 }
-
 
 /**
  * @description write permissions
