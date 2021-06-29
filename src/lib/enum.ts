@@ -1,6 +1,6 @@
 import { checkFolder, writeEnums, writePermissions } from './files';
 import * as path from 'path';
-import { registerHandlebarTemplates } from './template';
+import { registerHandlebarTemplates } from './registerTemplates';
 /**
  * @description 生成的单个枚举数据结构
  */
