@@ -44,7 +44,7 @@ generateEnums({
   },
   // 权限
   permissionKey: 'permissionKey'
-);
+});
 ```
 
 
