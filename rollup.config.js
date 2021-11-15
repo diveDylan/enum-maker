@@ -68,7 +68,6 @@ module.exports = {
     'util',
     'http',
     'https',
-    'handlebars/runtime',
     ...external,
   ],
   plugins: getPlugins(),
