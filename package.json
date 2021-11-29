@@ -22,7 +22,7 @@
     "test:bin": "jest ./tests/index.spec.ts",
     "publish": "npm publish",
     "cover": "jest --coverage",
-    "codecov": "codecov --token=6496cc41-cca4-48ef-b87d-0337c02ca29d",
+    "codecov": "codecov --token=2f4ffa4c-aa4a-4972-9417-209aaff7d947",
     "version": "standard-version",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
   },

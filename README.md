@@ -1,8 +1,9 @@
 <h1 style="text-align: center"> enum-maker </h1>
 
 <p style="text-align: center">
-<img src="https://img.shields.io/travis/com/diveDylan/enum-maker"/>
-<img src="https://img.shields.io/codecov/c/github/diveDylan/enum-maker"/>
+<img src="https://img.shields.io/travis/com/pregalaxyer/enum-maker"/>
+<img src="https://img.shields.io/codecov/c/github/pregalaxyer/enum-maker"/>
+<img src="https://img.shields.io/npm/dy/enum-maker">
 <p>
 <br/>
 
