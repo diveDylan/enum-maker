@@ -3,7 +3,7 @@
 <p style="text-align: center">
 <img src="https://img.shields.io/travis/com/pregalaxyer/enum-maker"/>
 <img src="https://img.shields.io/codecov/c/github/pregalaxyer/enum-maker"/>
-<img src="https://img.shields.io/npm/dy/enum-maker">
+<img src="https://img.shields.io/npm/pregalaxyer/enum-maker">
 <p>
 <br/>
 

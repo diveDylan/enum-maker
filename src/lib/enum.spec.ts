@@ -35,10 +35,15 @@ const enumCase: GeneratorEnumsOptions = {
       EDIT: 'edit'
     },
     CheckPeriodNumber: { 1: '年度考核', 2: '季度考核' },
+    1: {
+      test: 'no content'
+    }
   },
   permissionKey: 'Permissions',
   formatter,
 }
+
+
 
 test('ArrayEnumsCase:  will create an enums array', () => {
   const {enumsArray,permissions } = generatorEnums(enumCase)
@@ -72,4 +77,14 @@ test('generateEnums will write enums and permissions', async () => {
   expect(registerHandlebarTemplates).toBeCalledTimes(1)
   expect(writeEnums).toBeCalled()
   expect(writePermissions).toBeCalled()
+})
+
+test('generatorEnums with default formatter', async () => {
+  const { enumsArray } = await generatorEnums({
+    enums: enumCase.enums,
+    formatter: null,
+    permissionKey: enumCase.permissionKey,
+  })
+  expect(enumsArray.filter(item => item.name === addEnumTail('CheckPeriod'))[0].enums[0].value).toBe('YEAR')
+
 })

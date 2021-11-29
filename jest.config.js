@@ -6,4 +6,5 @@ module.exports = {
   },
   testPathIgnorePatterns: ['<rootDir>/dist'],
   coveragePathIgnorePatterns: ['<rootDir>/dist', 'tests', '<rootDir>/src/templates'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
